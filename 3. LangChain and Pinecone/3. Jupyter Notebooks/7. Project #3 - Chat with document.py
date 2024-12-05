@@ -112,3 +112,14 @@ if __name__ == "__main__":
                 with open(file_name, 'wb') as f:
                     f.write(bytes_data)
 
+                data = load_document(file_name)
+                chunks = chunk_data(data, chunk_size=chunk_size)
+                st.write(f'Chunk size: {chunk_size}, Chunks: {len(chunks)}')
+
+                tokens, embedding_cost = calculate_embedding_cost(chunks)
+                st.write(f'Embedding cost: ${embedding_cost:.4f}')
+
+                # creating the embeddings and returning the Chroma vector store
+                vector_store = create_embeddings(chunks)
+
+
