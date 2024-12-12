@@ -139,7 +139,21 @@ if __name__ == "__main__":
             # text area widget for the LLM answer
             st.text_area('LLM Answer: ', value=answer)
 
-            st.divider()
+    st.divider()
+    # if there's no chat history in the session state, create it
+    if 'history' not in st.session_state:
+        st.session_state.history = ''
+
+    # the current question and answer
+    # the current question and answer
+    value = f'Q: {q} \nA: {answer}'
+
+    st.session_state.history = f'{value} \n {"-" * 100} \n {st.session_state.history}'
+    h = st.session_state.history
+
+    # text area widget for the chat history
+    st.text_area(label='Chat History', value=h, key='history', height=400)
+
 
 
 
