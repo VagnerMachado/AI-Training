@@ -2,6 +2,8 @@
 
 # Interesting https://docs.streamlit.io/develop/concepts/design/buttons
 
+# Run like this:  streamlit run '.\7. Project #3 - Chat with document.py'
+
 import streamlit as st
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -121,5 +123,24 @@ if __name__ == "__main__":
 
                 # creating the embeddings and returning the Chroma vector store
                 vector_store = create_embeddings(chunks)
+
+                # saving the vector store in the streamlit session state (to be persistent between reruns)
+                st.session_state.vs = vector_store
+                st.success('File uploaded, chunked and embedded successfully.')
+
+    # user's question text input widget
+    q = st.text_input('Ask a question about the content of your file:')
+    if q: # if the user entered a question and hit enter
+        if 'vs' in st.session_state: # if there's the vector store (user uploaded, split and embedded a file)
+            vector_store = st.session_state.vs
+            st.write(f'k: {k}')
+            answer = ask_and_get_answer(vector_store, q, k)
+
+            # text area widget for the LLM answer
+            st.text_area('LLM Answer: ', value=answer)
+
+            st.divider()
+
+
 
 
