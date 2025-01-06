@@ -29,6 +29,7 @@ import streamlit as st
 st.title('Streamlit Session')
 st.write(st.session_state)
 
+# note that you can use both [] notation or . notation for the session_state
 if 'counter' not in st.session_state:
     st.session_state['counter'] = 0
 else:
